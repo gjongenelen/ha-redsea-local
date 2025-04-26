@@ -17,7 +17,7 @@ class RedSeaSwitchEntity(SwitchEntity):
 
     def __init__(self, device, id, name):
         self._attr_unique_id = id
-        self._attr_name = name
+        self.name = name
         self._device = device
         self._attr_is_on = False
         self._available = False
