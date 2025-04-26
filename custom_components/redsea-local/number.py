@@ -14,7 +14,7 @@ class RedSeaNumberEntity(NumberEntity):
 
     def __init__(self, device, id, name):
         self._attr_unique_id = id
-        self._attr_name = name
+        self.name = name
         self._device = device
         self._attr_native_value = 0
         self._available = False
