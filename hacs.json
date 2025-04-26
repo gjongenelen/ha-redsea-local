@@ -1,0 +1,7 @@
+{
+  "name": "RedSea-local",
+  "content_in_root": false,
+  "domains": ["redsea"],
+  "country": "NL",
+  "homeassistant": "2023.0.0"
+}

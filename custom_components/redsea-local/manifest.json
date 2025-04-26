@@ -1,0 +1,10 @@
+{
+  "domain": "redsea",
+  "name": "Redsea-local",
+  "version": "1.0.0",
+  "documentation": "https://github.com/gjongenelen/ha-redsea-local",
+  "dependencies": [],
+  "codeowners": ["@gjongenelen"],
+  "requirements": ["requests"],
+  "config_flow": true
+}
