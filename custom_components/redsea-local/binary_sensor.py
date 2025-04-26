@@ -10,6 +10,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     entities = hass.data[DOMAIN][entry.entry_id]["api"].get_factories("binary_sensor")
     async_add_entities(entities)
     hass.data[DOMAIN][entry.entry_id]["api"].add_entities(entities)
+
 class RedSeaBinarySensor(BinarySensorEntity):
     def __init__(self, device, id, name):
         self._attr_unique_id = id

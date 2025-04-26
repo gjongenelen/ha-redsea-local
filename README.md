@@ -2,9 +2,9 @@
 
 This integration adds support for the following RedSea products:
 - ReefATO+
-- ~~ReefWave~~
-- ~~ReefMat~~
-- ~~ReefRun~~
+- ReefMat
+- ~~ReefWave~~ (Coming soon)
+- ~~ReefRun~~ (Coming soon)
 
 ## Installation
 1. Add this GitHub repository as a custom repository in HACS (type: integration).
