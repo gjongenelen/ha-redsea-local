@@ -8,8 +8,10 @@ _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(hass, entry, async_add_entities):
     entities = hass.data[DOMAIN][entry.entry_id]["api"].get_factories("sensor")
+    _LOGGER.error("Entities: %s", entities[0].name)
     async_add_entities(entities)
     hass.data[DOMAIN][entry.entry_id]["api"].add_entities(entities)
+    _LOGGER.error("Entities2: %s", hass.data[DOMAIN][entry.entry_id]["api"].entities[0].name)
 
 class RedSeaSensor(SensorEntity):
     def __init__(self, device, id, name):
@@ -71,4 +73,26 @@ class RedSeaWaterLevelSensor(RedSeaSensor):
     def handle_api_data(self, data):
         self._state = data["water_level"]
         self._available = data["ato_sensor"]["connected"]
+        self.async_write_ha_state()
+
+class RedSeaReefMatDayToEndOfRollSensor(RedSeaSensor):
+
+    def __init__(self, device, id, name):
+        super().__init__(device, f'{device["id"]}_{id}', name)
+        self._unit = "days"
+
+    def handle_api_data(self, data):
+        self._state = data["days_till_end_of_roll"]
+        self._available = True
+        self.async_write_ha_state()
+
+class RedSeaReefMatTodayUsageSensor(RedSeaSensor):
+
+    def __init__(self, device, id, name):
+        super().__init__(device, f'{device["id"]}_{id}', name)
+        self._unit = "cm"
+
+    def handle_api_data(self, data):
+        self._state = data["today_usage"]
+        self._available = True
         self.async_write_ha_state()

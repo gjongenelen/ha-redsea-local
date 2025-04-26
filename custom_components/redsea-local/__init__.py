@@ -4,7 +4,7 @@ import logging
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
-from .api import RedSeaAtoApi
+from .api import *
 from .const import DOMAIN
 
 PLATFORMS = ["sensor", "binary_sensor", "switch", "number"]
@@ -25,6 +25,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     if entry.data["type"] == "reef-ato":
         apiFn = RedSeaAtoApi
 
+    if entry.data["type"] == "reef-mat":
+        apiFn = RedSeaReefMatApi
+
     if apiFn == None:
         _LOGGER.error("Unsupported device type: %s", entry.data["type"])
         return False
@@ -44,8 +47,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         while not stop_event.is_set():
             try:
                 data = await apiI.fetch_data()
-                _LOGGER.info("Fetched data successfully, %s", data)
-
+                _LOGGER.info("Fetched data successfully for %s, %s", entry.data["device_name"], data)
+                _LOGGER.info(apiI.entities)
                 apiI.update(data)
             except Exception as e:
                 _LOGGER.warning("Failed to fetch_data: %s", e)
@@ -57,6 +60,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.data[DOMAIN][entry.entry_id]["task"] = task
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+    _LOGGER.error("%s API factories: %s", entry.data["type"], apiI.entities)
     return True
 
 

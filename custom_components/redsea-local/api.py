@@ -2,21 +2,21 @@ import logging
 
 import aiohttp
 
-from .binary_sensor import RedSeaAtoLeakSensor, RedSeaAtoPumpRunningSensor, RedSeaAtoDesiredWaterLevelSensor
-from .sensor import RedSeaAtoTempSensor, RedSeaTodayVolumeSensor, RedSeaWaterLevelSensor
-from .switch import RedSeaDeviceModeSwitch
+from .binary_sensor import *
+from .sensor import *
+from .switch import *
 
 _LOGGER = logging.getLogger(__name__)
 
 
 class RedSeaApi:
-    factories = {}
-    entities = []
 
     def __init__(self, device, ip, type):
         self.ip = ip
         self.type = type
         self.device = device
+        self.factories = {}
+        self.entities = []
 
     def get_factories(self, platform):
         return self.factories[platform]
@@ -25,7 +25,6 @@ class RedSeaApi:
         return self.entities.extend(entities)
 
     def update(self, data):
-        _LOGGER.debug("API data: %s", self.entities)
         for entity in self.entities:
             entity.handle_api_data(data)
 
@@ -82,4 +81,32 @@ class RedSeaAtoApi(RedSeaApi):
     async def fetch_data(self):
         data = await self.get_data("/dashboard")
         data["configuration"] = await self.get_data("/configuration")
+        return data
+
+
+class RedSeaReefMatApi(RedSeaApi):
+    def __init__(self, device, ip, type):
+        super().__init__(device, ip, type)
+        self.factories = {
+            "binary_sensor": [
+            ],
+            "sensor": [
+                RedSeaReefMatDayToEndOfRollSensor(self.device, "days_till_end_of_roll", "Days till end of roll"),
+                RedSeaReefMatTodayUsageSensor(self.device, "today_usage", "Today usage"),
+            ],
+            "switch": [
+                RedSeaReefMatAutoAdvanceSwitch(self.device, "auto_advance", "Auto advance", self),
+            ],
+            "number": [
+            ]
+        }
+        _LOGGER.error("ReefMat API factories: %s", self.factories)
+
+    def set_reef_mat_autoadvance(self, enabled):
+        return self.put_data("/configuration", {
+            "auto_advance": enabled
+        })
+
+    async def fetch_data(self):
+        data = await self.get_data("/dashboard")
         return data
