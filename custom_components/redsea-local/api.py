@@ -89,6 +89,8 @@ class RedSeaReefMatApi(RedSeaApi):
         super().__init__(device, ip, type)
         self.factories = {
             "binary_sensor": [
+                RedSeaReefMatIsInternetConnectedSensor(self.device, "is_internet_connected", "Internet connected"),
+                
             ],
             "sensor": [
                 RedSeaReefMatDayToEndOfRollSensor(self.device, "days_till_end_of_roll", "Days till end of roll"),
