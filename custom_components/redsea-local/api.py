@@ -91,7 +91,8 @@ class RedSeaReefMatApi(RedSeaApi):
             "binary_sensor": [
                 RedSeaReefMatIsInternetConnectedSensor(self.device, "is_internet_connected", "Internet connected"),
                 RedSeaReefMatIsECSensorConnectedSensor(self.device, "is_ec_sensor_connected", "EC sensor connected"),
-
+                RedSeaReefMatUncleanSensor(self.device, "unclean_sensor", "Unclean sensor"),
+                
             ],
             "sensor": [
                 RedSeaReefMatDayToEndOfRollSensor(self.device, "days_till_end_of_roll", "Days till end of roll"),

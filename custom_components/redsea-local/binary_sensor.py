@@ -85,3 +85,14 @@ class RedSeaReefMatIsECSensorConnectedSensor(RedSeaBinarySensor):
         self._attr_is_on = data["is_ec_sensor_connected"]
         self._available = True
         self.async_write_ha_state()
+
+class RedSeaReefMatUncleanSensor(RedSeaBinarySensor):
+    def __init__(self, device, id, name):
+        super().__init__(device, f'{device["id"]}_{id}', name)
+        self._attr_device_class = BinarySensorDeviceClass.PROBLEM
+        self._attr_is_on = False
+
+    def handle_api_data(self, data):
+        self._attr_is_on = data["unclean_sensor"]
+        self._available = True
+        self.async_write_ha_state()
