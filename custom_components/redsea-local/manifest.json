@@ -1,7 +1,7 @@
 {
   "domain": "redsea",
   "name": "Redsea-local",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "documentation": "https://github.com/mcaminiti/ha-redsea-local",
   "dependencies": [],
   "codeowners": ["@mcaminiti"],
