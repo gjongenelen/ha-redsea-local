@@ -93,6 +93,8 @@ class RedSeaReefMatApi(RedSeaApi):
             "sensor": [
                 RedSeaReefMatDayToEndOfRollSensor(self.device, "days_till_end_of_roll", "Days till end of roll"),
                 RedSeaReefMatTodayUsageSensor(self.device, "today_usage", "Today usage"),
+                RedSeaReefMatDailyAverageUsageSensor(self.device, "daily_average_usage", "Daily average usage"),
+                
             ],
             "switch": [
                 RedSeaReefMatAutoAdvanceSwitch(self.device, "auto_advance", "Auto advance", self),
