@@ -25,10 +25,10 @@
         value_template: "{{ value_json['last_advance_cause'] }}"
       - name: "ReefMat - Roll Level"
         value_template: "{{ value_json['roll_level'] }}"
-#      - name: "ReefMat - Days Till End Of Roll"
-#        value_template: "{{ value_json['days_till_end_of_roll'] | int }}"
-#        unit_of_measurement: "d"
-#        state_class: duration
+      - name: "ReefMat - Days Till End Of Roll"
+        value_template: "{{ value_json['days_till_end_of_roll'] | int }}"
+        unit_of_measurement: "d"
+        state_class: duration
       - name: "ReefMat - Internal EC Average"
         value_template: "{{ value_json['internal_ec_average'] | float | round(1) }}"
       - name: "ReefMat - External EC Average"
