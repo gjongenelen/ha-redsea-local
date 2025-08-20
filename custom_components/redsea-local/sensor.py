@@ -96,3 +96,14 @@ class RedSeaReefMatTodayUsageSensor(RedSeaSensor):
         self._state = data["today_usage"]
         self._available = True
         self.async_write_ha_state()
+
+class RedSeaReefMatDailyAverageUsageSensor(RedSeaSensor):
+
+    def __init__(self, device, id, name):
+        super().__init__(device, f'{device["id"]}_{id}', name)
+        self._unit = "cm"
+
+    def handle_api_data(self, data):
+        self._state = data["daily_average_usage"]
+        self._available = True
+        self.async_write_ha_state()
